@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - {{ user.username }}</title>
+    <meta name="description" content="Tableau de bord de MesurePro pour gérer vos mesures personnelles.">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h4.logo {
+        	font-weight: bold;
+        	font-size: 30px;
+            margin: 0;
+        }
+        header a {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 16px;
+        }
+        header small {
+            margin-left: auto;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        form input[type="text"],
+        form input[type="date"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        form button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        ul li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        ul li strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        ul li a {
+            color: #fff;
+            
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        ul li a:hover {
+        	
+            text-decoration: underline;
+        }
+        h2{
+        	color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h4 class="logo">MesurePro</h4>
+        
+        <a href="{% url 'logout' %}">Déconnexion</a>
+    </header>
+    
+    <h2>Tableau de bord</h2>
+    <a>Bienvenue {{ user.username }}</a>
+    <form method="get">
+        <input type="text" name="q" placeholder="Rechercher par nom ou date">
+        <input type="date" name="q"/>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <a href="{% url 'add_measurement' %}">Ajouter une mesure</a>
+    <a href="{% url 'download_all_measurements' %}">Télécharger toutes les mesures</a>
+
+    <ul>
+        {% for measurement in measurements %}
+            <li>
+                <strong>Nom du client :</strong> {{ measurement.name }}<br>
+                <strong> Mesure de l'habit :</strong> {{ measurement.habit }}<br>
+                <strong>Mesure du pantalon :</strong> {{ measurement.pant_size }}<br>
+                <strong>Numéro de téléphone :</strong> {{ measurement.phone_number }}<br>
+                <strong>Date :</strong> {{ measurement.date }}<br>
+                <a href="{% url 'edit_measurement' measurement.pk %}">Modifier</a> 
+                <a href="{% url 'delete_measurement' measurement.pk %}">Supprimer</a> 
+                <a href="{% url 'download_measurement' measurement.pk %}">Télécharger en PDF</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
