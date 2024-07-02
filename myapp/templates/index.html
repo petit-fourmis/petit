@@ -1,0 +1,251 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <title>MesurePro - Mesures Précises et Faciles</title>
+    <meta name="description" content="MesurePro vous permet de prendre des mesures précises facilement. Utilisez notre barre de recherche pour accéder rapidement à vos données. Inscrivez-vous dès maintenant.">
+</head>
+<body>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            height: 100vh;
+
+        }
+
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+            background-color: #fff;
+
+        }
+        .logo h1 {
+            font-family: Arial;
+            color: #007BFF;
+            font-size: 3rem;
+        }
+        ul {
+            list-style: none;
+            display: flex;
+        }
+        ul li {
+            margin: 0 10px;
+        }
+        ul li a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: 0.5s;
+            border-radius: 6px;
+        }
+        ul li a:hover {
+            background-color: #fff;
+            color: #007BFF;
+        }
+
+
+@media screen and (max-width: 1037px) {
+            body {
+                position: relative;
+            }
+
+            ul {
+                flex-direction: column;
+                position: absolute;
+                top: 0;
+                left: -1500px;
+                height: 100vh;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(255, 255, 255, 0.8);
+                transition: 0.5s;
+                backdrop-filter: blur(10px);
+
+            }
+            ul li {
+                margin: 20px 0;
+            }
+            ul li a {
+
+                text-transform: uppercase;
+
+            }
+            ul li a:hover {
+                color: #007BFF;
+
+            }
+            .button {
+                z-index: 100;
+                width: 50px;
+                height: 50px;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+            .button::after {
+                content: "";
+                position: absolute;
+                width: 35px;
+                height: 2px;
+                background-color: #007BFF;
+                transform: translateY(-10px);
+                box-shadow: 0 10px 0 #007BFF;
+                transition: 0.5s;
+            }
+            .button.active::after {
+                transform: rotate(45deg);
+                box-shadow: 0 0 0 #007BFF;
+            }
+            .button::before {
+                content: "";
+                position: absolute;
+                width: 35px;
+                height: 2px;
+                background-color: #007BFF;
+                transform: translateY(10px);
+                transition: 0.5s;
+            }
+            .button.active::before {
+                transform: rotate(-45deg);
+            }
+            ul.active {
+                left: 0;
+            }
+
+
+
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            background: snow;
+            width: 100%;
+            height: 40%;
+        }
+        .container {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #007BFF;
+        }
+        .container h3 {
+            margin: 20 0px;
+            text-transform: uppercase;
+            text-align: center;
+            color: #007BFF;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .container p {
+            color: #007BFF;
+            font-size: 2
+            1rem;
+        }
+        .bnt a {
+            width: 50%;
+            margin: 10px;
+            color: #007BFF;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 10px;
+            border: 2px solid #007BFF;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 2s ease-out infinte;
+        }
+        .bnt a:hover {
+            width: 70%;
+            background: #007BFF;
+            color: #fff;
+            border: #007BFF;
+        }
+
+        footer {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+    <header>
+        <div class="logo">
+            <h1>MesurePro</h1>
+        </div>
+        <div class="button"></div>
+        <ul class="menu">
+            <li><a href="{% url 'login' %}">Connexion</a></li>
+            <li><a href="{% url 'signup' %}">Inscription</a></li>
+            <li><a href="#">Accueil</a></li>
+        </ul>
+
+    </header>
+    <header>
+        <h1 class="logo"></h1>
+        <nav>
+            <ul>
+
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h3>gère tout vos mesures à tout moment </h3>
+            <p>
+                Ajoute modifier supprimer vos mesures n'a jamais été aussi facile
+            </p>
+        </div>
+        <div class="bnt">
+            <a href="{% url 'login' %}">Connexion</a>
+            <a href="{% url 'signup' %}">Inscription</a>
+        </div>
+
+
+
+    </main>
+    <footer>
+        <p>
+            ©copyright tout les droits réservés à <a href="">Amen 2024</a>
+        </footer>
+
+        <script>
+            //Javascript responsive code
+            var button = document.querySelector('.button');
+            var menu = document.querySelector('.menu');
+
+            button.onclick = function() {
+                button.classList.toggle('active');
+                menu.classList.toggle('active');
+            }
+
+        </script>
+
+    </body>
+</html>

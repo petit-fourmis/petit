@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - MesurePro</title>
+    <meta name="description" content="Inscrivez-vous sur MesurePro pour accéder à nos outils de mesure précis et intuitifs.">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .help-text {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            text-align: center;
+        }
+        p a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Inscription</h2>
+    <form id="signup-form" method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div>
+            <label for="id_username">{{ form.username.label }}</label>
+            {{ form.username }}
+            <div id="username-help" class="help-text" style="display: none;">Le nom d'utilisateur doit être de 8 à 50 caractères uniquement.</div>
+            {% for error in form.username.errors %}
+                <div class="error-message">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div>
+            <label for="id_password1">{{ form.password1.label }}</label>
+            {{ form.password1 }}
+            <div id="password1-help" class="help-text" style="display: none;">Votre mot de passe doit contenir au moins 8 caractères.</div>
+            {% for error in form.password1.errors %}
+                <div class="error-message">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div>
+            <label for="id_password2">{{ form.password2.label }}</label>
+            {{ form.password2 }}
+            <div id="password2-help" class="help-text" style="display: none;">Saisissez le même mot de passe que précédemment, pour vérification.</div>
+            {% for error in form.password2.errors %}
+                <div class="error-message">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div>
+            <label for="id_email">{{ form.email.label }}</label>
+            {{ form.email }}
+            {% for error in form.email.errors %}
+                <div class="error-message">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <button type="submit">Inscrivez-vous</button>
+        <p>Avez-vous déjà un compte ? <a href="{% url 'login' %}">Connectez-vous</a></p>
+    </form>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('signup-form');
+        const username = document.getElementById('id_username');
+        const password1 = document.getElementById('id_password1');
+        const password2 = document.getElementById('id_password2');
+        
+        const usernameHelp = document.getElementById('username-help');
+        const password1Help = document.getElementById('password1-help');
+        const password2Help = document.getElementById('password2-help');
+
+        // Affichage des messages d'aide contextuels
+        username.addEventListener('input', function() {
+            if (username.value.length > 0) {
+                usernameHelp.style.display = 'block';
+                usernameHelp.style.color = (username.value.length < 8 || username.value.length > 50) ? 'red' : 'green';
+            } else {
+                usernameHelp.style.display = 'none';
+            }
+        });
+
+        password1.addEventListener('input', function() {
+            if (password1.value.length > 0) {
+                password1Help.style.display = 'block';
+                password1Help.style.color = (password1.value.length < 8) ? 'red' : 'green';
+            } else {
+                password1Help.style.display = 'none';
+            }
+        });
+
+        password2.addEventListener('input', function() {
+            if (password2.value.length > 0) {
+                password2Help.style.display = 'block';
+                password2Help.style.color = (password1.value !== password2.value) ? 'red' : 'green';
+            } else {
+                password2Help.style.display = 'none';
+            }
+        });
+
+        // Validation lors de la soumission du formulaire
+        form.addEventListener('submit', function(event) {
+            let valid = true;
+            // Réinitialiser les messages d'erreur
+            document.querySelectorAll('.error-message').forEach(function(el) {
+                el.remove();
+            });
+
+            // Validation du nom d'utilisateur
+            if (username.value.length < 8 || username.value.length > 50 || !/^[\w.@+-]+$/.test(username.value)) {
+                showError(username, 'Nom d\'utilisateur invalide. Doit être entre 8 et 50 caractères.');
+                valid = false;
+            }
+
+            // Validation des mots de passe
+            if (password1.value.length < 8) {
+                showError(password1, 'Votre mot de passe doit contenir au minimum 8 caractères.');
+                valid = false;
+            }
+            if (password1.value !== password2.value) {
+                showError(password2, 'Les mots de passe ne correspondent pas.');
+                valid = false;
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+
+        function showError(input, message) {
+            const error = document.createElement('div');
+            error.classList.add('error-message');
+            error.style.color = 'red';
+            error.innerText = message;
+            input.parentNode.insertBefore(error, input.nextSibling);
+        }
+    });
+    </script>
+</body>
+</html>
